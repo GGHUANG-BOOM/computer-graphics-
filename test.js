@@ -33,7 +33,7 @@ scene.add(ground);
 const loader = new THREE.GLTFLoader();
 let model, shirt;
 
-loader.load('models/character.glb', (gltf) => {
+loader.load('uploads_files_5275839_BaseMesh_Asia_GLB.glb', (gltf) => {
   model = gltf.scene;
   scene.add(model);
   model.position.y = 0;
