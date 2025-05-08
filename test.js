@@ -1,4 +1,9 @@
-// Scene setup
+
+import * as THREE from './three.module.js';
+import { GLTFLoader } from './GLTFLoader.js';
+import { OrbitControls } from './OrbitControls.js';
+
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xf0f0f0);
 
@@ -9,10 +14,10 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Controls
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-// Lighting
+const controls = new OrbitControls(camera, renderer.domElement);
+
+
 const light = new THREE.HemisphereLight(0xffffff, 0x444444);
 light.position.set(0, 2, 0);
 scene.add(light);
@@ -21,7 +26,7 @@ const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
 dirLight.position.set(1, 3, 2);
 scene.add(dirLight);
 
-// Ground
+
 const ground = new THREE.Mesh(
   new THREE.PlaneGeometry(10, 10),
   new THREE.MeshStandardMaterial({ color: 0xe0e0e0 })
@@ -29,8 +34,7 @@ const ground = new THREE.Mesh(
 ground.rotation.x = -Math.PI / 2;
 scene.add(ground);
 
-// Loaders
-const loader = new THREE.GLTFLoader();
+const loader = new GLTFLoader();
 let model, shirt;
 
 loader.load('uploads_files_5275839_BaseMesh_Asia_GLB.glb', (gltf) => {
@@ -41,18 +45,18 @@ loader.load('uploads_files_5275839_BaseMesh_Asia_GLB.glb', (gltf) => {
   loader.load('models/shirt1.glb', (gltf2) => {
     shirt = gltf2.scene;
     shirt.visible = false;
-    model.add(shirt); // Parent shirt to character
+    model.add(shirt); 
   });
 });
 
-// GUI button logic
+
 function wearShirt() {
   if (shirt) {
     shirt.visible = !shirt.visible;
   }
 }
 
-// Render loop
+
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
@@ -60,9 +64,10 @@ function animate() {
 }
 animate();
 
-// Responsive
+
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
